@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a2e;
+  --surface: #f8f9fa;
+  --surface-hover: #f1f3f5;
+  --border: #e5e7eb;
+  --border-light: #f0f0f0;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --accent: #00b386;
+  --accent-light: #e6f9f3;
+  --positive: #16a34a;
+  --positive-bg: #f0fdf4;
+  --negative: #dc2626;
+  --negative-bg: #fef2f2;
+  --brand-primary: #00b386;
+  --brand-dark: #009973;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --card-shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-positive: var(--positive);
+  --color-positive-bg: var(--positive-bg);
+  --color-negative: var(--negative);
+  --color-negative-bg: var(--negative-bg);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-dark: var(--brand-dark);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Market ticker scroll animation */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-animate {
+  animation: ticker-scroll 40s linear infinite;
+}
+
+.ticker-animate:hover {
+  animation-play-state: paused;
+}
+
+/* Tab active indicator */
+.tab-active {
+  position: relative;
+}
+
+.tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 1px 1px 0 0;
+}
+
+/* Pill button styles */
+.pill-active {
+  background: var(--text-primary);
+  color: white;
+}
+
+.pill-inactive {
+  background: var(--surface);
+  color: var(--text-secondary);
+}
+
+.pill-inactive:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+/* Card hover effect */
+.stock-card-hover {
+  transition: all 0.2s ease;
+}
+
+.stock-card-hover:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-1px);
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,144 @@
+// This is your Prisma schema file for the TradAdda Stock Trading Platform.
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── USER MODEL ─────────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(uuid())
+  phone     String
+  email     String   @unique
+  name      String
+  pancard   String   @unique
+  password  String   // bcrypt hashed
+  createdAt DateTime @default(now())
+
+  // Relations
+  wallet     Wallet?
+  orders     Order[]
+  holdings   Holding[]
+  positions  Position[]
+  watchlists Watchlist[]
+
+  @@map("users")
+}
+
+// ─── WALLET MODEL ───────────────────────────────────────────────────────────────
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  balance   Decimal  @default(0) @db.Decimal(18, 2)
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("wallets")
+}
+
+// ─── ORDER MODEL ────────────────────────────────────────────────────────────────
+
+model Order {
+  id             String      @id @default(uuid())
+  userId         String
+  stockSymbol    String
+  orderType      OrderType
+  quantity       Int
+  executionPrice Decimal     @db.Decimal(18, 4)
+  status         OrderStatus @default(PENDING)
+  timestamp      DateTime    @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([stockSymbol])
+  @@index([status])
+  @@map("orders")
+}
+
+// ─── HOLDING MODEL ──────────────────────────────────────────────────────────────
+
+model Holding {
+  id              String  @id @default(uuid())
+  userId          String
+  stockSymbol     String
+  totalQuantity   Int
+  averageBuyPrice Decimal @db.Decimal(18, 4)
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, stockSymbol])
+  @@index([userId])
+  @@map("holdings")
+}
+
+// ─── POSITION MODEL ─────────────────────────────────────────────────────────────
+
+model Position {
+  id          String  @id @default(uuid())
+  userId      String
+  stockSymbol String
+  quantity    Int
+  entryPrice  Decimal @db.Decimal(18, 4)
+  isIntraday  Boolean @default(true)
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([stockSymbol])
+  @@map("positions")
+}
+
+// ─── WATCHLIST MODEL ────────────────────────────────────────────────────────────
+
+model Watchlist {
+  id     String @id @default(uuid())
+  userId String
+  name   String
+
+  // Relations
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stocks WatchlistStock[]
+
+  @@index([userId])
+  @@map("watchlists")
+}
+
+// ─── WATCHLIST STOCK (Join Table) ───────────────────────────────────────────────
+
+model WatchlistStock {
+  id          String @id @default(uuid())
+  watchlistId String
+  stockSymbol String
+
+  // Relations
+  watchlist Watchlist @relation(fields: [watchlistId], references: [id], onDelete: Cascade)
+
+  @@unique([watchlistId, stockSymbol])
+  @@map("watchlist_stocks")
+}
+
+// ─── ENUMS ──────────────────────────────────────────────────────────────────────
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  EXECUTED
+  CANCELLED
+}
