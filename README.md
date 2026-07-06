@@ -1,8 +1,7 @@
-# TradAdda — Stock Trading Platform
+# Trade Zone — Stock Trading Platform
 
 A modern, responsive stock trading dashboard built with **Next.js 14**, **Express.js**, **PostgreSQL**, and **Tailwind CSS**.
 
-![TradAdda](https://img.shields.io/badge/TradAdda-Stock%20Trading-00B386?style=for-the-badge)
 
 ## 🏗️ Architecture
 
