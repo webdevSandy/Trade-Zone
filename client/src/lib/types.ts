@@ -19,6 +19,7 @@ export interface StockData {
   sparklineData: number[];
   logoColor?: string;
   logoInitial?: string;
+  domain?: string;
 }
 
 export interface PortfolioMetrics {

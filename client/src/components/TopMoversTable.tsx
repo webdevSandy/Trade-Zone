@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import MiniSparkline from "./charts/MiniSparkline";
 import { formatVolume } from "@/lib/mockData";
 import type { StockData } from "@/lib/types";
@@ -28,26 +29,39 @@ const TopMoversTable: React.FC<TopMoversTableProps> = ({ stocks }) => {
       {/* Table Rows */}
       <div className="divide-y divide-border-light">
         {stocks.map((stock) => (
-          <div
+          <Link
             key={stock.symbol}
+            href={`/stock/${stock.symbol.toLowerCase()}`}
             className="grid grid-cols-[1fr_auto_auto] gap-4 px-4 py-3.5 hover:bg-surface cursor-pointer transition-smooth items-center"
           >
             {/* Company Info */}
             <div className="flex items-center gap-3">
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-surface"
                 style={{
-                  backgroundColor: stock.logoColor
+                  backgroundColor: !stock.domain && stock.logoColor
                     ? `${stock.logoColor}15`
                     : "#f0f0f0",
                 }}
               >
-                <span
-                  className="text-xs font-bold"
-                  style={{ color: stock.logoColor || "#333" }}
-                >
-                  {stock.logoInitial || stock.symbol.charAt(0)}
-                </span>
+                {stock.domain ? (
+                  <img
+                    src={`https://www.google.com/s2/favicons?sz=64&domain=${stock.domain}`}
+                    alt={stock.companyName}
+                    className="w-full h-full object-contain p-1 bg-white"
+                    onError={(e) => {
+                      // Hide image on error to show fallback letter
+                      (e.target as HTMLElement).style.display = "none";
+                    }}
+                  />
+                ) : (
+                  <span
+                    className="text-xs font-bold"
+                    style={{ color: stock.logoColor || "#333" }}
+                  >
+                    {stock.logoInitial || stock.symbol.charAt(0)}
+                  </span>
+                )}
               </div>
               <span className="text-sm font-medium text-text-primary truncate">
                 {stock.companyName}
@@ -86,7 +100,7 @@ const TopMoversTable: React.FC<TopMoversTableProps> = ({ stocks }) => {
                 {stock.volume ? formatVolume(stock.volume) : "—"}
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

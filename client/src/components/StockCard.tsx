@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import MiniSparkline from "./charts/MiniSparkline";
 import type { StockData } from "@/lib/types";
 
@@ -10,22 +11,30 @@ interface StockCardProps {
 
 const StockCard: React.FC<StockCardProps> = ({ stock }) => {
   return (
-    <div className="flex flex-col min-w-[160px] p-4 border border-border rounded-xl stock-card-hover cursor-pointer bg-white">
+    <Link href={`/stock/${stock.symbol.toLowerCase()}`} className="flex flex-col min-w-[160px] p-4 border border-border rounded-xl stock-card-hover cursor-pointer bg-card">
       {/* Logo */}
       <div
-        className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+        className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 overflow-hidden bg-surface"
         style={{
-          backgroundColor: stock.logoColor
+          backgroundColor: !stock.domain && stock.logoColor
             ? `${stock.logoColor}15`
             : "#f0f0f0",
         }}
       >
-        <span
-          className="text-sm font-bold"
-          style={{ color: stock.logoColor || "#333" }}
-        >
-          {stock.logoInitial || stock.symbol.charAt(0)}
-        </span>
+        {stock.domain ? (
+          <img
+            src={`https://www.google.com/s2/favicons?sz=64&domain=${stock.domain}`}
+            alt={stock.companyName}
+            className="w-full h-full object-contain p-1 rounded-lg bg-white"
+          />
+        ) : (
+          <span
+            className="text-sm font-bold"
+            style={{ color: stock.logoColor || "#333" }}
+          >
+            {stock.logoInitial || stock.symbol.charAt(0)}
+          </span>
+        )}
       </div>
 
       {/* Company Name */}
@@ -47,7 +56,7 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
         {stock.isPositive ? "" : ""}
         {stock.change.toFixed(2)} ({Math.abs(stock.changePercent).toFixed(2)}%)
       </p>
-    </div>
+    </Link>
   );
 };
 

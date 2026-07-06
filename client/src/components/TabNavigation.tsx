@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Monitor } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 import type { TabType } from "@/lib/types";
 
 const tabs: { id: TabType; label: string }[] = [
@@ -13,39 +16,58 @@ const tabs: { id: TabType; label: string }[] = [
 ];
 
 const TabNavigation: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabType>("explore");
+  const pathname = usePathname();
+  const { user } = useAuth();
+
+  if (!user) return null;
+
+  const getTabPath = (id: TabType) => {
+    if (id === "explore") return "/";
+    return `/${id}`;
+  };
+
+  const isTabActive = (id: TabType) => {
+    const path = getTabPath(id);
+    if (id === "explore") {
+      return pathname === "/";
+    }
+    return pathname === path || pathname.startsWith(path + "/");
+  };
 
   return (
-    <div className="bg-white border-b border-border">
+    <div className="bg-card border-b border-border">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Tab Links */}
           <div className="flex items-center gap-0">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`relative px-4 py-3 text-sm font-medium transition-smooth ${
-                  activeTab === tab.id
-                    ? "text-text-primary tab-active"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+            {tabs.map((tab) => {
+              const active = isTabActive(tab.id);
+              return (
+                <Link
+                  key={tab.id}
+                  href={getTabPath(tab.id)}
+                  className={`relative px-4 py-3 text-sm font-medium transition-smooth ${
+                    active
+                      ? "text-text-primary tab-active"
+                      : "text-text-secondary hover:text-text-primary"
+                  }`}
+                >
+                  {tab.label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right: Terminal & Market Status */}
           <div className="hidden md:flex items-center gap-3">
-            <button className="flex items-center gap-2 px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary hover:bg-surface rounded-md transition-smooth">
+            <button className="flex items-center gap-2 px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary hover:bg-surface rounded-md transition-smooth cursor-pointer">
               <Monitor className="w-4 h-4" />
               <span className="font-medium">Terminal</span>
             </button>
             <div className="flex items-center gap-1.5 px-2 py-1">
               <div className="w-2 h-2 rounded-full bg-positive animate-pulse"></div>
               <span className="text-xs font-medium text-text-secondary">
-                9:15
+                Live
               </span>
             </div>
           </div>

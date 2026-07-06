@@ -3,9 +3,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f8f9fa;
   --foreground: #1a1a2e;
-  --surface: #f8f9fa;
+  --surface: #ffffff;
   --surface-hover: #f1f3f5;
   --border: #e5e7eb;
   --border-light: #f0f0f0;
@@ -20,9 +20,34 @@
   --negative-bg: #fef2f2;
   --brand-primary: #00b386;
   --brand-dark: #009973;
+  --card-bg: #ffffff;
   --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
   --card-shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.dark {
+  --background: #0b0e11;
+  --foreground: #f5f6f8;
+  --surface: #11141c;
+  --surface-hover: #1e222b;
+  --border: #222630;
+  --border-light: #1b1e26;
+  --text-primary: #f5f6f8;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --accent: #00d4aa;
+  --accent-light: rgba(0, 212, 170, 0.1);
+  --positive: #00d4aa;
+  --positive-bg: rgba(0, 212, 170, 0.1);
+  --negative: #f43f5e;
+  --negative-bg: rgba(244, 63, 94, 0.1);
+  --brand-primary: #00d4aa;
+  --brand-dark: #00b386;
+  --card-bg: #151821;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --card-shadow-elevated: 0 12px 40px rgba(0, 0, 0, 0.6);
 }
 
 @theme inline {
@@ -43,6 +68,7 @@
   --color-negative-bg: var(--negative-bg);
   --color-brand-primary: var(--brand-primary);
   --color-brand-dark: var(--brand-dark);
+  --color-card: var(--card-bg);
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -136,4 +162,9 @@ body {
 /* Smooth transitions */
 .transition-smooth {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
 }

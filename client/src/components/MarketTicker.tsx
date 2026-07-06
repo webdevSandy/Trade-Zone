@@ -3,14 +3,32 @@
 import React from "react";
 import { Globe } from "lucide-react";
 import { marketIndices } from "@/lib/mockData";
+import { useMarketDataContext } from "@/context/MarketDataContext";
 
 const MarketTicker: React.FC = () => {
+  const { indexList, isConnected, isAuthenticated } = useMarketDataContext();
+  
+  const indexOrder = ["NIFTY", "SENSEX", "BANKNIFTY", "FINNIFTY", "MIDCPNIFTY"];
+  const displayIndices = [...(indexList.length > 0 ? indexList : marketIndices)].sort(
+    (a, b) => indexOrder.indexOf(a.name) - indexOrder.indexOf(b.name)
+  );
+
   return (
-    <div className="bg-white border-b border-border overflow-hidden">
+    <div className="bg-card border-b border-border overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center py-2 overflow-x-auto scrollbar-hide">
           <div className="flex items-center gap-6 min-w-max">
-            {marketIndices.map((index) => (
+            {/* Live Indicator */}
+            <div className="flex items-center gap-1.5 pr-2 border-r border-border mr-1">
+              <span className={`w-2 h-2 rounded-full ${
+                isConnected ? "bg-emerald-500 animate-pulse" : "bg-gray-300"
+              }`} />
+              <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted">
+                {isConnected ? "Live" : isAuthenticated ? "Connected" : "Mock"}
+              </span>
+            </div>
+
+            {displayIndices.map((index) => (
               <div
                 key={index.name}
                 className="flex items-center gap-2 cursor-pointer group"

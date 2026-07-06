@@ -20,7 +20,7 @@ const iconBgMap: Record<string, string> = {
 
 const ProductsTools: React.FC = () => {
   return (
-    <div className="border border-border rounded-xl bg-white overflow-hidden">
+    <div className="border border-border rounded-xl bg-card overflow-hidden">
       <div className="p-5">
         <h3 className="text-base font-semibold text-text-primary mb-4">
           Products & Tools
