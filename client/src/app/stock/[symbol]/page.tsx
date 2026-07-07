@@ -436,7 +436,7 @@ export default function StockDetailPage({
     },
     stroke: {
       curve: "smooth",
-      width: chartType === "candle" ? 0 : chartType === "bar" ? 0 : 2
+      width: chartType === "candle" ? 1 : chartType === "bar" ? 0 : 2
     },
     colors: chartType === "candle" ? ["#00b386", "#dc2626"] : [isPositive ? "#00b386" : "#dc2626"],
     fill: {
