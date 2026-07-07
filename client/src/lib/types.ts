@@ -16,7 +16,7 @@ export interface StockData {
   changePercent: number;
   isPositive: boolean;
   volume?: number;
-  sparklineData: number[];
+  sparklineData?: number[];
   logoColor?: string;
   logoInitial?: string;
   domain?: string;

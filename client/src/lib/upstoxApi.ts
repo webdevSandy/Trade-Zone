@@ -21,6 +21,7 @@ export interface UpstoxStockQuote {
   timestamp?: number;
   domain?: string;
   logoColor?: string;
+  sparklineData?: number[];
 }
 
 export interface UpstoxIndexQuote {

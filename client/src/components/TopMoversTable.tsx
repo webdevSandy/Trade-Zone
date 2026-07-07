@@ -71,7 +71,7 @@ const TopMoversTable: React.FC<TopMoversTableProps> = ({ stocks }) => {
             {/* Price + Sparkline */}
             <div className="flex items-center gap-3 min-w-[160px] justify-end">
               <MiniSparkline
-                data={stock.sparklineData}
+                data={stock.sparklineData || []}
                 isPositive={stock.isPositive}
                 width={80}
                 height={28}
