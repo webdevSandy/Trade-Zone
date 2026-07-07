@@ -37,7 +37,7 @@ const TopMoversTable: React.FC<TopMoversTableProps> = ({ stocks }) => {
             {/* Company Info */}
             <div className="flex items-center gap-3">
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-surface"
+                className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 overflow-hidden bg-surface"
                 style={{
                   backgroundColor: !stock.domain && stock.logoColor
                     ? `${stock.logoColor}15`

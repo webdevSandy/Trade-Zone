@@ -101,7 +101,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
         {/* Brand Banner */}
         <div className="flex flex-col items-center text-center mt-2 mb-6">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center mb-3">
+          <div className="w-10 h-10 rounded-full bg-linear-to-br from-emerald-400 to-emerald-600 flex items-center justify-center mb-3">
             <span className="text-white font-bold text-lg">T</span>
           </div>
           <h2 className="text-lg font-bold text-text-primary flex items-center gap-1.5">
@@ -141,7 +141,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         {/* Error Banners */}
         {(validationError || error) && (
           <div className="flex items-start gap-2 bg-negative-bg border border-negative/10 text-negative rounded-xl p-3 text-xs mb-4">
-            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
             <span>{validationError || error}</span>
           </div>
         )}
@@ -220,7 +220,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           {/* Sparkles promo for Register */}
           {activeTab === "register" && (
             <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/20 border border-brand-primary/10 rounded-xl p-3 text-[11px] text-emerald-800 dark:text-emerald-300 font-medium">
-              <Sparkles className="w-4 h-4 text-brand-primary flex-shrink-0" />
+              <Sparkles className="w-4 h-4 text-brand-primary shrink-0" />
               <span>We&apos;ll set up a demo wallet with ₹1,00,000 to practice trading instantly!</span>
             </div>
           )}

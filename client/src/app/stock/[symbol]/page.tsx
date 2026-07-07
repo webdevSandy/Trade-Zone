@@ -990,7 +990,7 @@ export default function StockDetailPage({
 
           {/* Secure Trading Indicator */}
           <div className="p-4 border border-border rounded-xl bg-card flex gap-3 text-xs text-text-secondary leading-relaxed">
-            <ShieldCheck className="w-5 h-5 text-brand-primary flex-shrink-0" />
+            <ShieldCheck className="w-5 h-5 text-brand-primary shrink-0" />
             <div>
               <p className="font-semibold text-text-primary mb-0.5">Secure Transaction</p>
               <p>Your orders are routed securely to Indian stock exchanges (NSE/BSE). Live market rates are managed by Neon & Upstox Serverless API connectivity.</p>

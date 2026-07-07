@@ -52,7 +52,7 @@ export default function DashboardPage() {
         {user && !user.pancard && (
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/25 border border-amber-200 dark:border-amber-900/50 shadow-sm transition-smooth animate-[fadeIn_0.3s_ease-out]">
             <div className="flex gap-3">
-              <ShieldAlert className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+              <ShieldAlert className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
               <div>
                 <h4 className="text-sm font-bold text-text-primary">
                   Complete your account setup
@@ -64,7 +64,7 @@ export default function DashboardPage() {
             </div>
             <button
               onClick={handleAddPan}
-              className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-smooth cursor-pointer self-start sm:self-auto flex-shrink-0 shadow-sm"
+              className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-smooth cursor-pointer self-start sm:self-auto shrink-0 shadow-sm"
             >
               Add PAN Card
               <ChevronRight className="w-3.5 h-3.5" />
@@ -114,7 +114,7 @@ export default function DashboardPage() {
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-text-primary tracking-tight leading-tight">
                 The Future of <br className="hidden sm:block" />
-                <span className="bg-gradient-to-r from-brand-primary to-emerald-500 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-brand-primary to-emerald-500 bg-clip-text text-transparent">
                   Smart Stock Trading
                 </span>{" "}
                 is Here.
@@ -159,7 +159,7 @@ export default function DashboardPage() {
 
             {/* Hero Visual Mockup (5 cols) */}
             <div className="lg:col-span-5 relative w-full max-w-md lg:max-w-none mx-auto">
-              <div className="relative p-1 rounded-3xl bg-gradient-to-tr from-border via-border/50 to-brand-primary/20 shadow-2xl">
+              <div className="relative p-1 rounded-3xl bg-linear-to-tr from-border via-border/50 to-brand-primary/20 shadow-2xl">
                 <div className="bg-card rounded-[22px] overflow-hidden p-6 space-y-4">
                   {/* Mock Window Header */}
                   <div className="flex items-center justify-between border-b border-border pb-4">
@@ -193,7 +193,7 @@ export default function DashboardPage() {
                     {[35, 45, 40, 50, 42, 60, 55, 70, 65, 80, 75, 95].map((h, i) => (
                       <div 
                         key={i} 
-                        className="flex-1 rounded-t bg-gradient-to-t from-emerald-500/20 to-emerald-500" 
+                        className="flex-1 rounded-t bg-linear-to-t from-emerald-500/20 to-emerald-500" 
                         style={{ height: `${h}%` }}
                       />
                     ))}
@@ -373,7 +373,7 @@ export default function DashboardPage() {
       </section>
 
       {/* ─── CALL TO ACTION BANNER ─────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 lg:py-24 border-b border-border bg-gradient-to-tr from-card via-background to-brand-primary/5">
+      <section className="py-16 sm:py-20 lg:py-24 border-b border-border bg-linear-to-tr from-card via-background to-brand-primary/5">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <h2 className="text-3xl sm:text-5xl font-black text-text-primary tracking-tight leading-tight">
             Ready to experience professional-grade <br />

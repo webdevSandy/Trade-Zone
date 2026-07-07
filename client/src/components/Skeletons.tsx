@@ -27,7 +27,7 @@ export const SkeletonCircle: React.FC<{
   className?: string;
 }> = ({ size = "40px", className = "" }) => (
   <div
-    className={`${shimmerClass} !rounded-full ${className}`}
+    className={`${shimmerClass} rounded-full! ${className}`}
     style={{ width: size, height: size }}
   />
 );
@@ -36,7 +36,7 @@ export const SkeletonCircle: React.FC<{
 
 export const StockCardSkeleton: React.FC = () => (
   <div className="flex flex-col min-w-[160px] p-4 border border-border rounded-xl bg-white">
-    <SkeletonBlock width="40px" height="40px" className="!rounded-lg mb-3" />
+    <SkeletonBlock width="40px" height="40px" className="rounded-lg! mb-3" />
     <SkeletonBlock width="80px" height="14px" className="mb-2" />
     <SkeletonBlock width="60px" height="14px" className="mb-1" />
     <SkeletonBlock width="70px" height="12px" />
@@ -48,14 +48,14 @@ export const StockCardSkeleton: React.FC = () => (
 export const TableRowSkeleton: React.FC = () => (
   <div className="flex items-center justify-between px-4 py-3 border-b border-border-light last:border-b-0">
     <div className="flex items-center gap-3">
-      <SkeletonBlock width="32px" height="32px" className="!rounded-lg" />
+      <SkeletonBlock width="32px" height="32px" className="rounded-lg!" />
       <div className="space-y-1.5">
         <SkeletonBlock width="90px" height="13px" />
         <SkeletonBlock width="60px" height="11px" />
       </div>
     </div>
     <div className="flex items-center gap-4">
-      <SkeletonBlock width="50px" height="24px" className="!rounded" />
+      <SkeletonBlock width="50px" height="24px" className="rounded!" />
       <div className="text-right space-y-1.5">
         <SkeletonBlock width="65px" height="13px" />
         <SkeletonBlock width="50px" height="11px" />
@@ -83,7 +83,7 @@ export const TopMoversSkeleton: React.FC = () => (
       <SkeletonBlock width="160px" height="18px" className="mb-4" />
       <div className="flex gap-2 mb-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <SkeletonBlock key={i} width="90px" height="32px" className="!rounded-full" />
+          <SkeletonBlock key={i} width="90px" height="32px" className="rounded-full!" />
         ))}
       </div>
       <div className="border border-border rounded-xl overflow-hidden bg-white">

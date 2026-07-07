@@ -141,7 +141,7 @@ const Navbar: React.FC = () => {
                   : "border-border bg-surface"
                   }`}
               >
-                <Search className="w-4 h-4 text-text-muted mr-2 flex-shrink-0" />
+                <Search className="w-4 h-4 text-text-muted mr-2 shrink-0" />
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -152,7 +152,7 @@ const Navbar: React.FC = () => {
                   onFocus={() => setSearchFocused(true)}
                   onBlur={() => setSearchFocused(false)}
                 />
-                <kbd className="hidden lg:flex items-center gap-0.5 px-1.5 py-0.5 bg-card border border-border rounded text-[10px] text-text-muted font-medium ml-2 flex-shrink-0">
+                <kbd className="hidden lg:flex items-center gap-0.5 px-1.5 py-0.5 bg-card border border-border rounded text-[10px] text-text-muted font-medium ml-2 shrink-0">
                   Ctrl+K
                 </kbd>
               </div>
@@ -176,7 +176,7 @@ const Navbar: React.FC = () => {
                       >
                         <div className="flex items-center gap-3">
                           <div
-                            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold overflow-hidden bg-surface"
+                            className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold overflow-hidden bg-surface"
                             style={{
                               backgroundColor: !stock.domain && stock.logoColor
                                 ? `${stock.logoColor}15`
@@ -288,7 +288,7 @@ const Navbar: React.FC = () => {
                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                     className="flex items-center gap-2 p-1 hover:bg-surface rounded-lg transition-smooth"
                   >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center ring-2 ring-white dark:ring-border">
+                    <div className="w-8 h-8 rounded-full bg-linear-to-br from-violet-400 to-violet-600 flex items-center justify-center ring-2 ring-white dark:ring-border">
                       <span className="text-white text-xs font-semibold">
                         {getInitials(user.name)}
                       </span>
@@ -319,7 +319,7 @@ const Navbar: React.FC = () => {
                         {/* Optional PAN Card verification indicator */}
                         {user.pancard ? (
                           <div className="flex items-center gap-1.5 text-[11px] text-positive font-semibold px-2 py-1.5 bg-positive-bg rounded-xl border border-positive/10">
-                            <UserCheck className="w-3.5 h-3.5 flex-shrink-0" />
+                            <UserCheck className="w-3.5 h-3.5 shrink-0" />
                             <span className="truncate">PAN Card Verified: {user.pancard}</span>
                           </div>
                         ) : (
@@ -337,7 +337,7 @@ const Navbar: React.FC = () => {
                             className="w-full flex items-center justify-between gap-1 px-2.5 py-2 bg-negative-bg border border-negative/10 hover:opacity-90 rounded-xl text-left cursor-pointer transition-smooth"
                           >
                             <span className="text-[11px] font-bold text-negative flex items-center gap-1.5">
-                              <ShieldAlert className="w-3.5 h-3.5 flex-shrink-0" />
+                              <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
                               Verify PAN Card
                             </span>
                             <span className="text-[10px] font-extrabold text-negative underline">Add</span>
@@ -352,7 +352,7 @@ const Navbar: React.FC = () => {
                           }}
                           className="w-full flex items-center gap-2 px-2 py-2 text-xs font-semibold text-text-secondary hover:text-negative hover:bg-negative-bg/10 rounded-xl transition-smooth text-left cursor-pointer"
                         >
-                          <LogOut className="w-4 h-4 flex-shrink-0" />
+                          <LogOut className="w-4 h-4 shrink-0" />
                           Log Out
                         </button>
                       </div>
