@@ -60,6 +60,31 @@ const Navbar: React.FC = () => {
   ]);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const notifDropdownRef = useRef<HTMLDivElement>(null);
+  const profileDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Click outside to close notification and profile dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        notifDropdownRef.current &&
+        !notifDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsNotifOpen(false);
+      }
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Debounced live search fetch from backend
   useEffect(() => {
@@ -315,7 +340,7 @@ const Navbar: React.FC = () => {
               </button>
 
               {/* Notification Bell */}
-              <div className="relative">
+              <div className="relative" ref={notifDropdownRef}>
                 <button
                   onClick={() => setIsNotifOpen(!isNotifOpen)}
                   className={`relative p-2 text-text-secondary hover:text-text-primary hover:bg-surface rounded-lg transition-smooth cursor-pointer ${
@@ -398,7 +423,7 @@ const Navbar: React.FC = () => {
 
               {/* Profile Block */}
               {user ? (
-                <div className="relative">
+                <div className="relative" ref={profileDropdownRef}>
                   <button
                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                     className="flex items-center gap-2 p-1 hover:bg-surface rounded-lg transition-smooth"
