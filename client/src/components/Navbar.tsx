@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState<boolean>(false);
   const [isNotifOpen, setIsNotifOpen] = useState<boolean>(false);
-  
+
   interface NotificationItem {
     id: string;
     title: string;
@@ -271,9 +271,8 @@ const Navbar: React.FC = () => {
                             })}
                           </p>
                           <p
-                            className={`text-xs font-semibold ${
-                              stock.isPositive ? "text-positive" : "text-negative"
-                            }`}
+                            className={`text-xs font-semibold ${stock.isPositive ? "text-positive" : "text-negative"
+                              }`}
                           >
                             {stock.isPositive ? "+" : ""}{stock.changePercent.toFixed(2)}%
                           </p>
@@ -297,7 +296,7 @@ const Navbar: React.FC = () => {
                 <button
                   onClick={handleConnectUpstox}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${isConnected
-                    ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-950/50"
+                    ? "border-emerald-200 dark:border-emerald-900/50 text-emerald-700 bg-emerald-100"
                     : isAuthenticated
                       ? "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-950/50"
                       : "bg-surface border-border text-text-secondary hover:bg-surface-hover hover:text-text-primary"
@@ -343,9 +342,8 @@ const Navbar: React.FC = () => {
               <div className="relative" ref={notifDropdownRef}>
                 <button
                   onClick={() => setIsNotifOpen(!isNotifOpen)}
-                  className={`relative p-2 text-text-secondary hover:text-text-primary hover:bg-surface rounded-lg transition-smooth cursor-pointer ${
-                    isNotifOpen ? "bg-surface text-text-primary" : ""
-                  }`}
+                  className={`relative p-2 text-text-secondary hover:text-text-primary hover:bg-surface rounded-lg transition-smooth cursor-pointer ${isNotifOpen ? "bg-surface text-text-primary" : ""
+                    }`}
                   title="Notifications"
                 >
                   <Bell className="w-5 h-5" />
@@ -381,11 +379,10 @@ const Navbar: React.FC = () => {
                                 prev.map((item) => (item.id === n.id ? { ...item, isRead: true } : item))
                               );
                             }}
-                            className={`p-2.5 rounded-xl border transition-smooth cursor-pointer ${
-                              n.isRead
-                                ? "bg-card border-transparent opacity-75 hover:opacity-100"
-                                : "bg-surface border-border hover:border-brand-primary/20"
-                            }`}
+                            className={`p-2.5 rounded-xl border transition-smooth cursor-pointer ${n.isRead
+                              ? "bg-card border-transparent opacity-75 hover:opacity-100"
+                              : "bg-surface border-border hover:border-brand-primary/20"
+                              }`}
                           >
                             <div className="flex items-start gap-2">
                               <div className="mt-0.5 shrink-0">
