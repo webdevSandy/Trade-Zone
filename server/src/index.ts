@@ -26,8 +26,12 @@ initSocketIO(httpServer);
 
 // ─── Middleware ─────────────────────────────────────────────────────────────────
 
+const clientOrigin = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.replace(/\/$/, "")
+  : "http://localhost:3000";
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  origin: clientOrigin,
   credentials: true,
 }));
 app.use(express.json());

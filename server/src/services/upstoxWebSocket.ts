@@ -304,9 +304,13 @@ async function syncRealMarketRates() {
 // ─── Initialize Socket.IO (Requirement 1.4) ─────────────────────────────────────
 
 export const initSocketIO = (httpServer: HttpServer): SocketIOServer => {
+  const clientOrigin = process.env.CLIENT_URL
+    ? process.env.CLIENT_URL.replace(/\/$/, "")
+    : "http://localhost:3000";
+
   io = new SocketIOServer(httpServer, {
     cors: {
-      origin: process.env.CLIENT_URL || "http://localhost:3000",
+      origin: clientOrigin,
       methods: ["GET", "POST"],
       credentials: true,
     },
