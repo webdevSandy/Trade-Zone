@@ -11,6 +11,7 @@ export interface UserProfile {
   phone: string;
   pancard: string | null;
   walletBalance: number;
+  isAdmin: boolean;
 }
 
 interface AuthContextType {

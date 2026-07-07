@@ -90,6 +90,7 @@ router.post("/register", async (req, res) => {
         phone: newUser.phone,
         pancard: newUser.pancard,
         walletBalance: newUser.wallet?.balance || 0,
+        isAdmin: newUser.isAdmin,
       },
     });
   } catch (error: any) {
@@ -156,6 +157,7 @@ router.post("/login", async (req, res) => {
         phone: user.phone,
         pancard: user.pancard,
         walletBalance: user.wallet?.balance || 0,
+        isAdmin: user.isAdmin,
       },
     });
   } catch (error: any) {
@@ -198,6 +200,7 @@ router.get("/me", authenticateToken, async (req: AuthenticatedRequest, res: Resp
         phone: user.phone,
         pancard: user.pancard,
         walletBalance: user.wallet?.balance || 0,
+        isAdmin: user.isAdmin,
       },
     });
   } catch (error: any) {

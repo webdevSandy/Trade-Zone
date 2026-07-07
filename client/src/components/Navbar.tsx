@@ -21,6 +21,43 @@ const Navbar: React.FC = () => {
   const { user, logout, updatePan } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState<boolean>(false);
+  const [isNotifOpen, setIsNotifOpen] = useState<boolean>(false);
+  
+  interface NotificationItem {
+    id: string;
+    title: string;
+    description: string;
+    time: string;
+    isRead: boolean;
+    type: "info" | "warning" | "success";
+  }
+
+  const [notifications, setNotifications] = useState<NotificationItem[]>([
+    {
+      id: "1",
+      title: "Welcome to Trade Zone!",
+      description: "₹1,00,000 demo credit has been successfully added to your wallet.",
+      time: "Just now",
+      isRead: false,
+      type: "success",
+    },
+    {
+      id: "2",
+      title: "PAN Verification Required",
+      description: "Link your PAN card to verify compliance with Indian trading standards.",
+      time: "1 hour ago",
+      isRead: false,
+      type: "warning",
+    },
+    {
+      id: "3",
+      title: "Market Feed Active",
+      description: "Quotes are synced using Yahoo Finance and Upstox API live streams.",
+      time: "2 hours ago",
+      isRead: true,
+      type: "info",
+    }
+  ]);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -231,39 +268,41 @@ const Navbar: React.FC = () => {
             <div className="flex items-center gap-3">
 
               {/* Upstox Connection Button */}
-              <button
-                onClick={handleConnectUpstox}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${isConnected
-                  ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-950/50"
-                  : isAuthenticated
-                    ? "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-950/50"
-                    : "bg-surface border-border text-text-secondary hover:bg-surface-hover hover:text-text-primary"
-                  }`}
-                title={
-                  isConnected
-                    ? "Upstox Live Stream Connected. Click to Log Out."
+              {user && user.isAdmin && (
+                <button
+                  onClick={handleConnectUpstox}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${isConnected
+                    ? "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-950/50"
                     : isAuthenticated
-                      ? "Connected but WebSocket data stream offline. Click to Log Out."
-                      : "Connect Upstox for Live Stock Prices"
-                }
-              >
-                {isConnected ? (
-                  <>
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>Upstox Live</span>
-                  </>
-                ) : isAuthenticated ? (
-                  <>
-                    <span className="w-2 h-2 rounded-full bg-amber-500" />
-                    <span>Upstox Connected</span>
-                  </>
-                ) : (
-                  <>
-                    <Link2 className="w-3.5 h-3.5" />
-                    <span>Connect Upstox</span>
-                  </>
-                )}
-              </button>
+                      ? "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-950/50"
+                      : "bg-surface border-border text-text-secondary hover:bg-surface-hover hover:text-text-primary"
+                    }`}
+                  title={
+                    isConnected
+                      ? "Upstox Live Stream Connected. Click to Log Out."
+                      : isAuthenticated
+                        ? "Connected but WebSocket data stream offline. Click to Log Out."
+                        : "Connect Upstox for Live Stock Prices"
+                  }
+                >
+                  {isConnected ? (
+                    <>
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span>Upstox Live</span>
+                    </>
+                  ) : isAuthenticated ? (
+                    <>
+                      <span className="w-2 h-2 rounded-full bg-amber-500" />
+                      <span>Upstox Connected</span>
+                    </>
+                  ) : (
+                    <>
+                      <Link2 className="w-3.5 h-3.5" />
+                      <span>Connect Upstox</span>
+                    </>
+                  )}
+                </button>
+              )}
 
               {/* Dark Mode Toggle */}
               <button
@@ -276,10 +315,86 @@ const Navbar: React.FC = () => {
               </button>
 
               {/* Notification Bell */}
-              <button className="relative p-2 text-text-secondary hover:text-text-primary hover:bg-surface rounded-lg transition-smooth">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-primary rounded-full"></span>
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setIsNotifOpen(!isNotifOpen)}
+                  className={`relative p-2 text-text-secondary hover:text-text-primary hover:bg-surface rounded-lg transition-smooth cursor-pointer ${
+                    isNotifOpen ? "bg-surface text-text-primary" : ""
+                  }`}
+                  title="Notifications"
+                >
+                  <Bell className="w-5 h-5" />
+                  {notifications.some((n) => !n.isRead) && (
+                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-primary rounded-full ring-2 ring-card animate-pulse" />
+                  )}
+                </button>
+
+                {/* Notifications Dropdown Popover */}
+                {isNotifOpen && (
+                  <div className="absolute right-0 mt-2 w-80 bg-card border border-border rounded-2xl shadow-xl p-4 z-50 animate-[fadeIn_0.15s_ease-out]">
+                    <div className="flex items-center justify-between border-b border-border pb-3 mb-3">
+                      <h4 className="text-sm font-bold text-text-primary">Notifications</h4>
+                      {notifications.some((n) => !n.isRead) && (
+                        <button
+                          onClick={() => {
+                            setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+                          }}
+                          className="text-[10px] text-brand-primary font-bold hover:underline cursor-pointer"
+                        >
+                          Mark all as read
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="space-y-3 max-h-[280px] overflow-y-auto pr-1">
+                      {notifications.length > 0 ? (
+                        notifications.map((n) => (
+                          <div
+                            key={n.id}
+                            onClick={() => {
+                              setNotifications((prev) =>
+                                prev.map((item) => (item.id === n.id ? { ...item, isRead: true } : item))
+                              );
+                            }}
+                            className={`p-2.5 rounded-xl border transition-smooth cursor-pointer ${
+                              n.isRead
+                                ? "bg-card border-transparent opacity-75 hover:opacity-100"
+                                : "bg-surface border-border hover:border-brand-primary/20"
+                            }`}
+                          >
+                            <div className="flex items-start gap-2">
+                              <div className="mt-0.5 shrink-0">
+                                {n.type === "success" && (
+                                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                                )}
+                                {n.type === "warning" && (
+                                  <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                                )}
+                                {n.type === "info" && (
+                                  <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                                )}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className={`text-xs text-text-primary truncate ${!n.isRead ? "font-bold" : "font-medium"}`}>
+                                  {n.title}
+                                </p>
+                                <p className="text-[10px] text-text-secondary mt-0.5 leading-relaxed">
+                                  {n.description}
+                                </p>
+                                <span className="text-[9px] text-text-muted mt-1 block">{n.time}</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-6 text-xs text-text-secondary">
+                          No notifications
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Profile Block */}
               {user ? (

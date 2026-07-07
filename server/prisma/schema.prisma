@@ -18,6 +18,7 @@ model User {
   name      String
   pancard   String?  @unique
   password  String   // bcrypt hashed
+  isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
 
   // Relations
