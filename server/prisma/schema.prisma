@@ -1,4 +1,4 @@
-// This is your Prisma schema file for the TradAdda Stock Trading Platform.
+// This is your Prisma schema file for the Trade Zone Stock Trading Platform.
 // Learn more: https://pris.ly/d/prisma-schema
 
 generator client {
