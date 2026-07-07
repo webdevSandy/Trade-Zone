@@ -215,6 +215,13 @@ export default function StockDetailPage({
   const [isIntraday, setIsIntraday] = useState<boolean>(false);
   const [chartType, setChartType] = useState<"line" | "candle" | "bar">("line");
   const [candleInterval, setCandleInterval] = useState<string>("5M");
+  const [isHoveringChart, setIsHoveringChart] = useState<boolean>(false);
+  const [hoveredPoint, setHoveredPoint] = useState<{
+    o: number;
+    h: number;
+    l: number;
+    c: number;
+  } | null>(null);
 
   // Local quote state for off-grid (non-tracked) stocks
   const [localQuote, setLocalQuote] = useState<any>(null);
@@ -383,7 +390,7 @@ export default function StockDetailPage({
 
   // Update the very last point/candle in real-time as live ticks come in
   useEffect(() => {
-    if (baseChartData.length === 0) return;
+    if (baseChartData.length === 0 || isHoveringChart) return;
 
     const updated = [...baseChartData];
     const lastIdx = updated.length - 1;
@@ -404,7 +411,7 @@ export default function StockDetailPage({
 
     updated[lastIdx] = lastPoint;
     setChartData(updated);
-  }, [currentPrice, baseChartData, chartType, liveHigh, liveLow]);
+  }, [currentPrice, baseChartData, chartType, liveHigh, liveLow, isHoveringChart]);
 
   // ─── Chart Config ────────────────────────────────────────────────────────────────
   const chartOptions: ApexCharts.ApexOptions = {
@@ -428,6 +435,30 @@ export default function StockDetailPage({
           if (xaxis) {
             setZoomRange({ min: xaxis.min, max: xaxis.max });
           }
+        },
+        mouseMove: (event: any, chartContext: any, config: any) => {
+          if (!config || !config.w) return;
+          const dataPointIndex = config.dataPointIndex;
+          const seriesIndex = config.seriesIndex;
+          if (seriesIndex !== undefined && seriesIndex >= 0 && dataPointIndex !== undefined && dataPointIndex >= 0) {
+            const seriesList = config.w.config?.series;
+            if (seriesList && seriesList[seriesIndex]) {
+              const point = seriesList[seriesIndex].data?.[dataPointIndex];
+              if (point) {
+                if (Array.isArray(point.y)) {
+                  const [o, h, l, c] = point.y;
+                  setHoveredPoint({ o, h, l, c });
+                } else if (typeof point.y === "number") {
+                  setHoveredPoint({ o: point.y, h: point.y, l: point.y, c: point.y });
+                } else if (point.y !== undefined) {
+                  setHoveredPoint({ o: point.y, h: point.y, l: point.y, c: point.y });
+                }
+              }
+            }
+          }
+        },
+        mouseLeave: () => {
+          setHoveredPoint(null);
         }
       }
     },
@@ -672,15 +703,23 @@ export default function StockDetailPage({
                 {/* Right: OHLC and Volume indicator */}
                 <div className="flex items-center gap-4 flex-wrap font-semibold text-text-secondary">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-text-muted">Price</span>
+                    <span className="text-text-muted">{hoveredPoint ? "Hovered" : "Price"}</span>
                     <span>O</span>
-                    <span className={isPositive ? "text-positive" : "text-negative"}>{openPrice.toFixed(2)}</span>
+                    <span className={hoveredPoint ? (hoveredPoint.c >= hoveredPoint.o ? "text-positive" : "text-negative") : (isPositive ? "text-positive" : "text-negative")}>
+                      {hoveredPoint ? hoveredPoint.o.toFixed(2) : openPrice.toFixed(2)}
+                    </span>
                     <span>H</span>
-                    <span className={isPositive ? "text-positive" : "text-negative"}>{highPrice.toFixed(2)}</span>
+                    <span className={hoveredPoint ? (hoveredPoint.c >= hoveredPoint.o ? "text-positive" : "text-negative") : (isPositive ? "text-positive" : "text-negative")}>
+                      {hoveredPoint ? hoveredPoint.h.toFixed(2) : highPrice.toFixed(2)}
+                    </span>
                     <span>L</span>
-                    <span className={isPositive ? "text-positive" : "text-negative"}>{lowPrice.toFixed(2)}</span>
+                    <span className={hoveredPoint ? (hoveredPoint.c >= hoveredPoint.o ? "text-positive" : "text-negative") : (isPositive ? "text-positive" : "text-negative")}>
+                      {hoveredPoint ? hoveredPoint.l.toFixed(2) : lowPrice.toFixed(2)}
+                    </span>
                     <span>C</span>
-                    <span className={isPositive ? "text-positive" : "text-negative"}>{currentPrice.toFixed(2)}</span>
+                    <span className={hoveredPoint ? (hoveredPoint.c >= hoveredPoint.o ? "text-positive" : "text-negative") : (isPositive ? "text-positive" : "text-negative")}>
+                      {hoveredPoint ? hoveredPoint.c.toFixed(2) : currentPrice.toFixed(2)}
+                    </span>
                   </div>
                   <label className="flex items-center gap-1.5 cursor-pointer select-none text-text-secondary hover:text-text-primary">
                     <input type="checkbox" defaultChecked className="rounded border-border text-brand-primary focus:ring-brand-primary w-3.5 h-3.5" />
@@ -690,7 +729,14 @@ export default function StockDetailPage({
               </div>
 
               {/* Chart Component */}
-              <div className="h-[300px]">
+              <div 
+                className="h-[300px]"
+                onMouseEnter={() => setIsHoveringChart(true)}
+                onMouseLeave={() => {
+                  setIsHoveringChart(false);
+                  setHoveredPoint(null);
+                }}
+              >
                 {chartData.length > 0 && (
                   <Chart
                     options={chartOptions}
